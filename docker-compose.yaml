@@ -1,9 +1,9 @@
-version: '3.8'
+version: '3.9'
 
 services:
   webgl:
-    container_name: unity-webgl-demo
-    image: unity-webgl-demo
+    container_name: unity-webgl
+    image: unity-webgl
     build: .
     ports:
       - "8080:80"
