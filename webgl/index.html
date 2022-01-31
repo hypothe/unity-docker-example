@@ -24,7 +24,7 @@
       </div>
     </div>
     <p id="presult">Joints:</p>
-    <script src="http://bomi-fama:4243/socket.io/socket.io.js"></script>
+    <script src="http://localhost:4243/socket.io/socket.io.js"></script>
     <script>
       var unityInstance;
       var container = document.querySelector("#unity-container");
@@ -121,7 +121,7 @@
       };
 
       // The Socket connection
-      const socket = io("http://bomi-fama:4243");
+      const socket = io("http://localhost:4243");
 
       socket.On('connect', ()=>{
         unityInstance.SendMessage('NodeClient', 'SocketConnect');
