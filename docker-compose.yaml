@@ -7,11 +7,6 @@ services:
     build: .
     ports:
       - "8080:80"
-    network_mode: "host"
-    #extra_hosts:
-    #  - "host.docker.internal:host-gateway"
-    #networks:
-    # - bomi-fama
-
-networks:
-  bomi-fama: {}
+    #network_mode: "host"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
