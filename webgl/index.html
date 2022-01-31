@@ -124,7 +124,7 @@
       const socket = io("http://localhost:4243");
 
       socket.on('connect', ()=>{
-        unityInstance.SendMessage('NodeClient', 'SocketConnect');
+        this.unityInstance.SendMessage('NodeClient', 'SocketConnect');
       })
       
       socket.on('getJointsValues', (msg)=>{
@@ -134,7 +134,7 @@
         }
         document.getElementById('presult').innerHTML = "Joints: " + out;
         
-        unityInstance.SendMessage('NodeClient', 'SocketSetJointsValues', JSON.stringify(msg));
+        this.unityInstance.SendMessage('NodeClient', 'SocketSetJointsValues', JSON.stringify(msg));
         
       })
 
