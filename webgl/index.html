@@ -26,6 +26,7 @@
     <p id="presult">Joints:</p>
     <script src="http://localhost:4243/socket.io/socket.io.js"></script>
     <script>
+      var unityInstance;
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
       var loadingBar = document.querySelector("#unity-loading-bar");
@@ -109,6 +110,7 @@
         createUnityInstance(canvas, config, (progress) => {
           progressBarFull.style.width = 100 * progress + "%";
         }).then((unityInstance) => {
+          this.unityInstance = unityInstance;
           loadingBar.style.display = "none";
           fullscreenButton.onclick = () => {
             unityInstance.SetFullscreen(1);
@@ -117,17 +119,26 @@
           alert(message);
         });
       };
-      document.body.appendChild(script);
 
+      // The Socket connection
       const socket = io("http://localhost:4243");
 
+      socket.On('connect', ()=>{
+        unityInstance.SendMessage('NodeClient', 'SocketConnect');
+      })
+      
       socket.on('getJointsValues', (msg)=>{
-			let out = '';
-			for (var jointValue of msg.joints){
-				out+=jointValue+" ";
-			}
-			document.getElementById('presult').innerHTML = "Joints: " + out;
-		})
+        let out = '';
+        for (var jointValue of msg.joints){
+          out+=jointValue+" ";
+        }
+        document.getElementById('presult').innerHTML = "Joints: " + out;
+        
+        unityInstance.SendMessage('NodeClient', 'SocketSetJointsValues', JSON.stringify(msg));
+        
+      })
+
+      document.body.appendChild(script);
     </script>
   </body>
 </html>
