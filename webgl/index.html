@@ -123,7 +123,7 @@
       // The Socket connection
       const socket = io("http://localhost:4243");
 
-      socket.On('connect', ()=>{
+      socket.on('connect', ()=>{
         unityInstance.SendMessage('NodeClient', 'SocketConnect');
       })
       
