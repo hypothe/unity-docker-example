@@ -1148,26 +1148,26 @@ var tempDouble;
 var tempI64;
 
 var ASM_CONSTS = {
- 3657580: function() {
+ 3657628: function() {
   Module["emscripten_get_now_backup"] = performance.now;
- },
- 3657635: function($0) {
-  performance.now = function() {
-   return $0;
-  };
  },
  3657683: function($0) {
   performance.now = function() {
    return $0;
   };
  },
- 3657731: function() {
+ 3657731: function($0) {
+  performance.now = function() {
+   return $0;
+  };
+ },
+ 3657779: function() {
   performance.now = Module["emscripten_get_now_backup"];
  },
- 3657786: function() {
+ 3657834: function() {
   return Module.webglContextAttributes.premultipliedAlpha;
  },
- 3657847: function() {
+ 3657895: function() {
   return Module.webglContextAttributes.preserveDrawingBuffer;
  }
 };
@@ -1269,6 +1269,23 @@ function stackTrace() {
  var js = jsStackTrace();
  if (Module["extraStackTrace"]) js += "\n" + Module["extraStackTrace"]();
  return demangleAll(js);
+}
+
+function _InitSocket(host_name, host_port) {
+ const srvr_host_name = UTF8ToString(host_name);
+ const srvr_host_port = UTF8ToString(host_port);
+ window.socket = io("http://" + srvr_host_name + ":" + srvr_host_port);
+ window.socket.on("connect", function() {
+  window.gameInstance.SendMessage("NodeClient", "SocketConnect");
+ });
+ window.socket.on("getJointsValues", function(msg) {
+  let out = "";
+  for (var jointValue of msg.joints) {
+   out += jointValue + " ";
+  }
+  window.document.getElementById("presult").innerHTML = "Joints: " + out;
+  window.gameInstance.SendMessage("NodeClient", "SocketSetJointValues", JSON.stringify(msg));
+ });
 }
 
 var JS_Accelerometer = null;
@@ -13351,6 +13368,7 @@ function intArrayFromString(stringy, dontAddNull, length) {
 }
 
 var asmLibraryArg = {
+ "InitSocket": _InitSocket,
  "JS_Accelerometer_IsRunning": _JS_Accelerometer_IsRunning,
  "JS_Accelerometer_Start": _JS_Accelerometer_Start,
  "JS_Accelerometer_Stop": _JS_Accelerometer_Stop,
