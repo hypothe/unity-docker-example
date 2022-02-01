@@ -115,7 +115,11 @@
           
           // Warn the NodeClient that the game instance is ready, so that 
           // it can instantiate the socket
+          socket = io("http://localhost:4243");
+          
+		      console.log('JS Opening Socket');
           gameInstance.SendMessage('NodeClient', 'GameInstanceReady');
+
 
           loadingBar.style.display = "none";
           fullscreenButton.onclick = () => {
