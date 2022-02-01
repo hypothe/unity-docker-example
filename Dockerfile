@@ -1,4 +1,4 @@
-FROM nginx:stable-alpine
+FROM nginx:stable-ubuntu
 
 ARG BOMI_SERVER_NAME
 ENV BOMI_SERVER_NAME=$BOMI_SERVER_NAME
