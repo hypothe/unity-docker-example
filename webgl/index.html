@@ -128,7 +128,7 @@
             }
             document.getElementById('presult').innerHTML = "Joints: " + out;
             
-            gameInstance.SendMessage('NodeClient', 'SocketSetJointsValues', JSON.stringify(msg));
+            gameInstance.SendMessage('NodeClient', 'SocketSetJointValues', JSON.stringify(msg));
             
           })
 
