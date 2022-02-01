@@ -114,7 +114,27 @@
         }).then((unityInstance) => {
           gameInstance = unityInstance;
           // define the socket only when the gameInstance exists
+          
+          // The Socket connection
+          
           socket = io("http://localhost:4243");
+
+          socket.on('connect', ()=>{
+            gameInstance.SendMessage('NodeClient', 'SocketConnect');
+          })
+          
+          socket.on('getJointsValues', (msg)=>{
+            let out = '';
+            for (var jointValue of msg.joints){
+              out+=jointValue+" ";
+            }
+            document.getElementById('presult').innerHTML = "Joints: " + out;
+            
+            gameInstance.SendMessage('NodeClient', 'SocketSetJointsValues', JSON.stringify(msg));
+            
+          })
+
+          //
           
           loadingBar.style.display = "none";
           fullscreenButton.onclick = () => {
@@ -125,22 +145,7 @@
         });
       };
 
-      // The Socket connection
-
-      socket.on('connect', ()=>{
-        gameInstance.SendMessage('NodeClient', 'SocketConnect');
-      })
       
-      socket.on('getJointsValues', (msg)=>{
-        let out = '';
-        for (var jointValue of msg.joints){
-          out+=jointValue+" ";
-        }
-        document.getElementById('presult').innerHTML = "Joints: " + out;
-        
-        gameInstance.SendMessage('NodeClient', 'SocketSetJointsValues', JSON.stringify(msg));
-        
-      })
 
       document.body.appendChild(script);
     </script>
