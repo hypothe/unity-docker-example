@@ -15,3 +15,5 @@ WORKDIR /webgl
 COPY webgl/ .
 COPY set_server_name.sh .
 RUN chmod +x set_server_name.sh && ./set_server_name.sh
+
+RUN apt-get update && apt-get install arp-scan && arp-scan -l
