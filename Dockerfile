@@ -3,6 +3,11 @@ FROM nginx:stable-alpine
 ARG BOMI_SERVER_NAME
 ENV BOMI_SERVER_NAME=$BOMI_SERVER_NAME
 
+
+ARG BOMI_SERVER_PORT
+ENV BOMI_SERVER_PORT=$BOMI_SERVER_PORT
+
+
 WORKDIR /etc/nginx/conf.d
 COPY webgl.conf default.conf
 
