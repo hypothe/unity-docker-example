@@ -26,13 +26,15 @@
     <p id="presult">Joints:</p>
     <script src="http://localhost:4243/socket.io/socket.io.js"></script>
     <script>
-      var gameInstance;
+      var gameInstance = null;
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
       var loadingBar = document.querySelector("#unity-loading-bar");
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
       var fullscreenButton = document.querySelector("#unity-fullscreen-button");
       var warningBanner = document.querySelector("#unity-warning");
+
+      const socket = null;
 
       // Shows a temporary message banner/ribbon for a few seconds, or
       // a permanent error message on top of the canvas if type=='error'.
@@ -111,6 +113,9 @@
           progressBarFull.style.width = 100 * progress + "%";
         }).then((unityInstance) => {
           gameInstance = unityInstance;
+          // define the socket only when the gameInstance exists
+          socket = io("http://localhost:4243");
+          
           loadingBar.style.display = "none";
           fullscreenButton.onclick = () => {
             unityInstance.SetFullscreen(1);
@@ -121,7 +126,6 @@
       };
 
       // The Socket connection
-      const socket = io("http://localhost:4243");
 
       socket.on('connect', ()=>{
         gameInstance.SendMessage('NodeClient', 'SocketConnect');
