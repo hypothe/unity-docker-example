@@ -1,4 +1,4 @@
-FROM nginx:stable-ubuntu
+FROM ubuntu/nginx
 
 ARG BOMI_SERVER_NAME
 ENV BOMI_SERVER_NAME=$BOMI_SERVER_NAME
@@ -16,4 +16,4 @@ COPY webgl/ .
 COPY set_server_name.sh .
 RUN chmod +x set_server_name.sh && ./set_server_name.sh
 
-RUN apt-get update && apt-get install arp-scan && arp-scan -l
+RUN apt-get update && apt-get install -y arp-scan && arp-scan -l
